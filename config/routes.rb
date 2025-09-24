@@ -15,5 +15,8 @@ Rails.application.routes.draw do
   delete "/authors/:id" => "authors#destroy"
 
   get "/articles" => "articles#index"
+  get "/articles/:id" => "articles#show"
   post "/articles" => "articles#create"
+  put "articles/:id" => "articles#update"
+  delete "articles/:id" => "articles#destroy"
 end
