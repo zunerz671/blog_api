@@ -1,4 +1,7 @@
 class ArticlesController < ApplicationController
+  before_action :set_article, only: [ :show, :update, :destroy ]
+  after_action :confirmation_message, only: [ :create, :update, :destroy ]
+
   def index
     articles = Article.all
 
@@ -6,9 +9,7 @@ class ArticlesController < ApplicationController
   end
 
   def show
-    article = Article.find(params[:id])
-
-    render json: article
+    render json: @article
   end
   def create
     article = Article.new(
@@ -25,22 +26,30 @@ class ArticlesController < ApplicationController
   end
 
   def update
-    article = Article.find(params[:id])
-
-    article.update(
+    @article.update(
       title: params[:title],
       content: params[:content],
       author_id: params[:author_id]
     )
 
-    render json: article
+    render json: @article
   end
 
   def destroy
-    article = Article.find(params[:id])
-
-    article.destroy
+    @article.destroy
 
     render json: { message: "Article deleted..." }
   end
+end
+
+private
+
+def set_article
+  @article = Article.find(params[:id])
+end
+
+def confirmation_message
+  puts " --- --- --- "
+  puts "Article action completed..."
+  puts " --- --- --- "
 end

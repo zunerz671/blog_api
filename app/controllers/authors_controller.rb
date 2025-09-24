@@ -48,6 +48,6 @@ end
 
 def confirmation_message
   puts " --- --- --- "
-  puts "Action completed..."
+  puts "Author action completed..."
   puts " --- --- --- "
 end
