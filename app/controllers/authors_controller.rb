@@ -1,44 +1,53 @@
 class AuthorsController < ApplicationController
-  def index
-    authors = Author.all
+  before_action :set_author, only: [ :show, :update, :destroy ]
+  after_action :confirmation_message, only: [ :create, :update, :destroy ]
 
-    render json: authors
+  def index
+    @author = Author.all
+
+    render json: @author
   end
 
   def show
-    author = Author.find(params[:id])
-
-    render json: author
+    render json: @author
   end
   def create
-    author = Author.new(
+    @author = Author.new(
       name: params[:name],
       age: params[:age]
     )
 
-    if author.save
-      render json: author
+    if @author.save
+      render json: @author
     else
-      render json: author.errors, status: :unprocessable_entity
+      render json: @author.errors, status: :unprocessable_entity
     end
   end
 
   def update
-    author = Author.find(params[:id])
-
-    author.update(
-      name: params[:name],
-      age: params[:age]
+    @author.update(
+      name: params[:name] || @author.name,
+      age: params[:age] || @author.age
     )
 
-    render json: author
+    render json: @author
   end
 
   def destroy
-    author = Author.find(params[:id])
-
-    author.destroy
+    @author.destroy
 
     render json: { message: "Author deleted..." }
   end
+end
+
+private
+
+def set_author
+  @author = Author.find(params[:id])
+end
+
+def confirmation_message
+  puts " --- --- --- "
+  puts "Action completed..."
+  puts " --- --- --- "
 end
