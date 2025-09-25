@@ -3,25 +3,25 @@ class ArticlesController < ApplicationController
   after_action :confirmation_message, only: [ :create, :update, :destroy ]
 
   def index
-    articles = Article.all
+    @article = Article.all
 
-    render json: articles
+    render json: @article
   end
 
   def show
     render json: @article
   end
   def create
-    article = Article.new(
+    @article = Article.new(
       title: params[:title],
       content: params[:content],
       author_id: params[:author_id]
     )
 
-    if article.save
-      render json: article
+    if @article.save
+      render json: @article
     else
-      render json: article.errors, status: :unprocessable_entity
+      render json: @article.errors, status: :unprocessable_entity
     end
   end
 
